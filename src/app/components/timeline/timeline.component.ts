@@ -1,16 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-interface TimelineItem {
-  period: string;
-  institution: string;
-  place: string;
-  description: string;
-  logoUrl?: string;
-  isPresent?: boolean;
-  responsibilities: string[];
-  isExpanded?: boolean;
-}
+import { ConfigService, TimelineItem } from '../../services/config.service';
 
 @Component({
   selector: 'app-timeline',
@@ -343,65 +333,11 @@ interface TimelineItem {
   `]
 })
 export class TimelineComponent {
-  timelineItems: TimelineItem[] = [
-    {
-      period: '2023 - Present',
-      institution: 'Tech Solutions Inc.',
-      place: 'San Francisco, CA',
-      description: 'Senior Software Engineer',
-      logoUrl: 'assets/images/companies/tech-solutions-logo.png',
-      isPresent: true,
-      responsibilities: [
-        'Led development of microservices architecture using Node.js and TypeScript',
-        'Architected and implemented real-time data processing pipeline handling 1M+ daily transactions',
-        'Mentored junior developers and conducted code reviews for team of 8 engineers',
-        'Implemented CI/CD pipeline reducing deployment time by 60%',
-        'Optimized application performance resulting in 40% improvement in load times'
-      ]
-    },
-    {
-      period: '2020 - 2023',
-      institution: 'Digital Innovations Corp',
-      place: 'New York, NY',
-      description: 'Full Stack Developer',
-      logoUrl: 'assets/images/companies/digital-innovations-logo.png',
-      responsibilities: [
-        'Developed and maintained multiple React-based web applications',
-        'Implemented authentication system serving 100K+ users',
-        'Created reusable component library used across 5 different projects',
-        'Optimized database queries reducing response time by 50%',
-        'Collaborated with UX team to implement responsive design patterns'
-      ]
-    },
-    {
-      period: '2018 - 2020',
-      institution: 'StartUp Solutions',
-      place: 'Boston, MA',
-      description: 'Frontend Developer',
-      logoUrl: 'assets/images/companies/startup-solutions-logo.png',
-      responsibilities: [
-        'Built interactive dashboards using Angular and D3.js',
-        'Implemented responsive designs for mobile-first applications',
-        'Reduced bundle size by 40% through code splitting and lazy loading',
-        'Integrated third-party APIs and payment gateways',
-        'Developed automated testing suite with 80% code coverage'
-      ]
-    },
-    {
-      period: '2014 - 2018',
-      institution: 'Tech University',
-      place: 'Seattle, WA',
-      description: 'Computer Science',
-      logoUrl: 'assets/images/companies/tech-university-logo.png',
-      responsibilities: [
-        'Bachelor of Science in Computer Science',
-        'Specialized in Software Engineering and Web Technologies',
-        'Completed capstone project in Machine Learning',
-        'President of Computer Science Society',
-        'Graduated with Honors - GPA 3.8/4.0'
-      ]
-    }
-  ];
+  timelineItems: TimelineItem[] = [];
+
+  constructor(private configService: ConfigService) {
+    this.timelineItems = this.configService.getConfig().timeline.items;
+  }
 
   expandCard(item: TimelineItem) {
     item.isExpanded = true;

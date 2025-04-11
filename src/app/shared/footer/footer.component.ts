@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-footer',
@@ -10,29 +11,25 @@ import { RouterLink } from '@angular/router';
         <div class="footer-section">
           <h3>Quick Links</h3>
           <div class="quick-links">
-            <a routerLink="/">Home</a>
-            <a routerLink="/profile">Profile</a>
-            <a routerLink="/contact">Contact</a>
+            @for (link of config.navigation.links; track link.path) {
+              <a [routerLink]="link.path">{{link.label}}</a>
+            }
           </div>
         </div>
 
         <div class="footer-section">
           <h3>Connect With Me</h3>
           <div class="social-links">
-            <a href="https://github.com/yourusername" target="_blank" rel="noopener">
-              <i class="fab fa-github"></i>
-            </a>
-            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener">
-              <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://twitter.com/yourusername" target="_blank" rel="noopener">
-              <i class="fab fa-twitter"></i>
-            </a>
+            @for (social of config.footer.socialLinks; track social.platform) {
+              <a [href]="social.url" target="_blank" rel="noopener">
+                <i [class]="social.icon"></i>
+              </a>
+            }
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; {{currentYear}} Your Name. All rights reserved.</p>
+        <p>&copy; {{currentYear}} {{config.footer.copyright}}. All rights reserved.</p>
       </div>
     </footer>
   `,
@@ -123,5 +120,8 @@ import { RouterLink } from '@angular/router';
   `]
 })
 export class FooterComponent {
+  config = this.configService.getConfig();
   currentYear = new Date().getFullYear();
+
+  constructor(private configService: ConfigService) {}
 }

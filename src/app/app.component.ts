@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { filter } from 'rxjs/operators';
+import { ConfigService } from './services/config.service';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
@@ -15,44 +18,42 @@ import { FooterComponent } from './shared/footer/footer.component';
       </div>
     </main>
     <app-footer></app-footer>
-  `,
-  styles: [`
-    :host {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      background-color: var(--background-color);
-    }
-
-    main {
-      flex: 1;
-      margin-top: var(--header-height);
-      padding: 2rem;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .main-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-      background-color: var(--background-color); /* Changed from var(--card-background) */
-      color: var(--text-color);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    @media (max-width: 768px) {
-      main {
-        padding: 1rem;
-      }
-
-      .main-content {
-        padding: 1rem;
-      }
-    }
-  `]
+  `
 })
-export class AppComponent {
-  title = 'portfolio-spa';
+export class AppComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private titleService: Title,
+    private configService: ConfigService
+  ) {}
+
+  ngOnInit() {
+    const baseTitle = this.configService.getConfig().title;
+
+    // Set initial title
+    this.titleService.setTitle(baseTitle);
+
+    // Update title on route changes
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      let title = baseTitle;
+
+      switch (event.urlAfterRedirects) {
+        case '/profile':
+          title = `${baseTitle} - Profile`;
+          break;
+        case '/contact':
+          title = `${baseTitle} - Contact`;
+          break;
+        case '/':
+          title = baseTitle;
+          break;
+      }
+
+      console.log('Current route:', event.urlAfterRedirects); // Debug log
+      console.log('Setting title to:', title); // Debug log
+      this.titleService.setTitle(title);
+    });
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,16 @@ import { ThemeService } from '../../services/theme.service';
     <header class="header">
       <nav class="nav-container">
         <div class="logo">
-          <a routerLink="/">My Portfolio</a>
+          <a routerLink="/">{{config.navigation.brand}}</a>
         </div>
         <div class="nav-links">
-          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
-          <a routerLink="/profile" routerLinkActive="active">Profile</a>
-          <a routerLink="/contact" routerLinkActive="active">Contact</a>
+          @for (link of config.navigation.links; track link.path) {
+            <a [routerLink]="link.path"
+               routerLinkActive="active"
+               [routerLinkActiveOptions]="{exact: link.path === '/'}">
+              {{link.label}}
+            </a>
+          }
           <button class="theme-toggle" (click)="toggleTheme()">
             <i class="fas" [class.fa-sun]="isDarkTheme$ | async" [class.fa-moon]="!(isDarkTheme$ | async)"></i>
           </button>
@@ -105,9 +110,10 @@ import { ThemeService } from '../../services/theme.service';
   `]
 })
 export class HeaderComponent {
+  config = this.configService.getConfig();
   isDarkTheme$ = this.themeService.isDarkTheme$;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private configService: ConfigService, private themeService: ThemeService) {}
 
   toggleTheme() {
     this.themeService.toggleTheme();

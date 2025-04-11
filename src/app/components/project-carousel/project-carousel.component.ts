@@ -1,14 +1,15 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy, PLATFORM_ID, Inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  Inject,
+  PLATFORM_ID,
+  AfterViewInit,
+  OnDestroy
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NgOptimizedImage } from '@angular/common';
-
-interface Project {
-  title: string;
-  description: string;
-  imageUrl: string;  // Should be a relative path starting with '/assets/'
-  githubUrl: string;
-  technologies: string[];
-}
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-project-carousel',
@@ -220,38 +221,12 @@ export class ProjectCarouselComponent implements AfterViewInit, OnDestroy {
   private resizeObserver: any;
   private isBrowser: boolean;
 
-  projects: Project[] = [
-    {
-      title: 'Portfolio Website',
-      description: 'A modern portfolio website built with Angular and TypeScript',
-      imageUrl: '/assets/projects/project1.PNG',
-      githubUrl: 'https://github.com/yourusername/portfolio',
-      technologies: ['Angular', 'TypeScript', 'SCSS']
-    },
-    {
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with real-time updates',
-      imageUrl: 'C:/Users/tilak/Documents/pfolio/portfolio-spa/src/assets/projects/project1.PNG',
-      githubUrl: '/assets/projects/project1.PNG',
-      technologies: ['Node.js', 'Express', 'MongoDB', 'React']
-    },
-    {
-      title: 'Task Manager',
-      description: 'A collaborative task management application',
-      imageUrl: '/assets/projects/project3.PNG',
-      githubUrl: 'https://github.com/yourusername/taskmanager',
-      technologies: ['Vue.js', 'Firebase', 'Vuex']
-    },
-    {
-      title: 'Weather App',
-      description: 'Real-time weather forecasting application',
-      imageUrl: 'C:/Users/tilak/Documents/pfolio/portfolio-spa/src/assets/projects/project1.PNG',
-      githubUrl: '/assets/projects/project3.PNG',
-      technologies: ['React Native', 'Redux', 'Weather API']
-    }
-  ];
+  projects = this.configService.getConfig().projects.items;
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private configService: ConfigService
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
 
     if (this.isBrowser) {

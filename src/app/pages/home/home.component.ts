@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProjectCarouselComponent } from '../../components/project-carousel/project-carousel.component';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +11,16 @@ import { ProjectCarouselComponent } from '../../components/project-carousel/proj
       <section class="hero">
         <div class="container">
           <div class="hero-content">
-            <h1>Welcome to My Portfolio</h1>
-            <p class="lead">I'm a passionate software developer specializing in web development</p>
-            <a href="#projects" class="btn">View My Work</a>
+            <h1>{{config.hero.title}}</h1>
+            <p class="lead">{{config.hero.subtitle}}</p>
+            <a href="#projects" class="btn">{{config.hero.ctaText}}</a>
           </div>
         </div>
       </section>
 
       <section id="projects" class="projects">
         <div class="container">
-          <h2>Featured Projects</h2>
+          <h2>{{config.projects.sectionTitle}}</h2>
           <app-project-carousel></app-project-carousel>
         </div>
       </section>
@@ -183,4 +184,8 @@ import { ProjectCarouselComponent } from '../../components/project-carousel/proj
     }
   `]
 })
-export class HomeComponent {}
+export class HomeComponent {
+  config = this.configService.getConfig();
+
+  constructor(private configService: ConfigService) {}
+}
