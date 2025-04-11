@@ -149,15 +149,31 @@ export class ConfigService {
           url: '/assets/images/gallery/selfie.JPG',
           caption: 'Sunset at the Beach',
           location: 'Hyderabad, Telangana',
-          date: '2023-12-15', // Add dates to your photos
+          date: '2023-12-15', // Use consistent YYYY-MM-DD format
           tags: ['Nature', 'Sunset', 'Beach']
+        },
+        {
+          id: 3,
+          url: '/assets/images/gallery/horizontal.PNG',
+          caption: 'City Lights',
+          location: 'Hyderabad, Telangana',
+          date: '2023-11-28', // Use consistent YYYY-MM-DD format
+          tags: ['Urban', 'Night', 'Architecture']
         },
         {
           id: 2,
           url: '/assets/images/gallery/nithin.JPG',
           caption: 'City Lights',
           location: 'Hyderabad, Telangana',
-          date: '2023-11-30',
+          date: '2023-11-30', // Use consistent YYYY-MM-DD format
+          tags: ['Urban', 'Night', 'Architecture']
+        },
+        {
+          id: 4,
+          url: '/assets/images/gallery/nithya.JPG',
+          caption: 'City Lights',
+          location: 'Hyderabad, Telangana',
+          date: '2023-11-28', // Use consistent YYYY-MM-DD format
           tags: ['Urban', 'Night', 'Architecture']
         },
         // Add more photos as needed
@@ -211,6 +227,7 @@ export class ConfigService {
     return this.siteConfig.analytics.googleAnalytics.measurementId;
   }
 }
+
 
 
 

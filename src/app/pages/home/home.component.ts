@@ -75,8 +75,8 @@ import { ConfigService } from '../../services/config.service';
     h1 {
       font-size: 4rem;
       margin-bottom: 1.5rem;
-      color: var(--title-color);
-      text-shadow: var(--heading-shadow);
+      color: var(--custom-font-color); // Changed from --title-color
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); // Enhanced text shadow for better visibility
       animation: fadeInDown 1s ease-out;
       font-weight: 600;
     }
@@ -85,6 +85,7 @@ import { ConfigService } from '../../services/config.service';
       font-size: 1.8rem;
       margin-bottom: 3rem;
       color: var(--custom-font-color);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); // Added subtle text shadow
       opacity: 0.9;
       animation: fadeInUp 1s ease-out;
     }
