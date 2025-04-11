@@ -33,10 +33,15 @@ export class ConfigService {
     // Meta information
     title: 'GR',
     metaDescription: 'Personal portfolio showcasing web development projects',
+    analytics: {
+      googleAnalytics: {
+        measurementId: 'G-7P4V4SWCY5' // Replace with your actual Measurement ID
+      }
+    },
 
     // Hero section
     hero: {
-      title: 'Hey There, I’m Gangadhar',
+      title: 'Hi There, I’m Gangadhar',
       subtitle: "Crafting the latest tech into seamless experiences 🚀",
       ctaText: 'Let\'s Geek Out'
     },
@@ -123,22 +128,27 @@ export class ConfigService {
 
     // Footer
     footer: {
-      copyright: 'GR — Built with ⚡ & ❤️ using Angular',
+      copyright: 'Built with  Augment Code & ❤️ using Angular by GR ',
       socialLinks: [
         {
           platform: 'GitHub',
-          url: 'https://github.com/yourusername',
+          url: 'https://github.com/gangadhar04051996',
           icon: 'fab fa-github'
         },
         {
           platform: 'LinkedIn',
-          url: 'https://linkedin.com/in/yourusername',
+          url: 'https://linkedin.com/in/balagangadharreddy',
           icon: 'fab fa-linkedin'
         },
         {
           platform: 'Twitter',
-          url: 'https://twitter.com/yourusername',
+          url: 'https://twitter.com/myselfgangadhar',
           icon: 'fab fa-twitter'
+        },
+        {
+          platform: 'Instagram',
+          url: 'https://instagram.com/myselfgangadhar',
+          icon: 'fab fa-instagram'
         }
       ] as SocialLink[]
     },
@@ -157,4 +167,9 @@ export class ConfigService {
   getConfig() {
     return this.siteConfig;
   }
+
+  getGoogleAnalyticsId() {
+    return this.siteConfig.analytics.googleAnalytics.measurementId;
+  }
 }
+

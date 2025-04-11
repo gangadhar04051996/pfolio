@@ -70,7 +70,8 @@
               "buildTarget": "portfolio-spa:build:production"
             },
             "development": {
-              "buildTarget": "portfolio-spa:build:development"
+              "buildTarget": "portfolio-spa:build:development",
+              "host": "dev.grinfinity.com"
             }
           },
           "defaultConfiguration": "development"

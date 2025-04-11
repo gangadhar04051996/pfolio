@@ -3,6 +3,7 @@ import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
 import { ConfigService } from './services/config.service';
+import { AnalyticsService } from './services/analytics.service';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private configService: ConfigService
+    private configService: ConfigService,
+    private analyticsService: AnalyticsService
   ) {}
 
   ngOnInit() {
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit {
     // Set initial title
     this.titleService.setTitle(baseTitle);
 
-    // Update title on route changes
+    // Update title and track page views on route changes
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -51,9 +53,8 @@ export class AppComponent implements OnInit {
           break;
       }
 
-      console.log('Current route:', event.urlAfterRedirects); // Debug log
-      console.log('Setting title to:', title); // Debug log
       this.titleService.setTitle(title);
+      this.analyticsService.trackPageView(event.urlAfterRedirects);
     });
   }
 }

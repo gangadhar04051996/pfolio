@@ -49,7 +49,7 @@ import { ConfigService } from '../../services/config.service';
                   <span class="tech-tag">{{tech}}</span>
                 }
               </div>
-              <a [href]="project.githubUrl" target="_blank" class="btn">View on GitHub</a>
+              <a [href]="project.githubUrl" target="_blank" class="btn">View on GitHub <i class="fab fa-github"></i></a>
             </div>
           </div>
         }

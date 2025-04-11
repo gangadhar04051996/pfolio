@@ -29,7 +29,7 @@ import { ConfigService } from '../../services/config.service';
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; {{currentYear}} {{config.footer.copyright}}. All rights reserved.</p>
+        <p> {{currentYear}} {{config.footer.copyright}}.</p>
       </div>
     </footer>
   `,
