@@ -9,7 +9,10 @@
 # Node
 /node_modules
 npm-debug.log
+yarn-debug.log
 yarn-error.log
+.pnpm-debug.log
+package-lock.json
 
 # IDEs and editors
 .idea/
@@ -19,13 +22,13 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
-
-# Visual Studio Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Visual Studio Code
 .history/*
 
 # Miscellaneous
@@ -40,3 +43,27 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase/
+**/node_modules/
+firebase-debug.log
+ui-debug.log
+.runtimeconfig.json
+
+# Environment files
+/src/environments/*.ts
+!/src/environments/environment.ts
+
+# Build artifacts
+*.js.map
+*.css.map
+.angular
+
+# Test coverage
+/coverage
+/.nyc_output
+
+# Logs
+logs
+*.log
