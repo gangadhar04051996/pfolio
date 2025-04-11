@@ -1,27 +1,162 @@
-# PortfolioSpa
+# Portfolio SPA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+A modern, responsive Single Page Application portfolio built with Angular and Firebase.
 
-## Development server
+## 🚀 Quick Start
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Prerequisites
 
-## Code scaffolding
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Angular CLI (v18.0.2)
+- Firebase CLI
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Installation
 
-## Build
+1. Clone the repository
+```bash
+git clone [your-repository-url]
+cd portfolio-spa
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Install dependencies
+```bash
+npm install
+```
 
-## Running unit tests
+3. Install Firebase tools globally
+```bash
+npm install -g firebase-tools
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Development
 
-## Running end-to-end tests
+Start the development server:
+```bash
+ng serve
+```
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### Firebase Local Development
 
-## Further help
+Run Firebase emulators:
+```bash
+firebase emulators:start
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🛠️ Build
+
+### Production Build
+
+```bash
+ng build
+```
+Build artifacts will be stored in the `dist/` directory.
+
+### SSR Build
+
+```bash
+npm run build:ssr
+npm run serve:ssr
+```
+
+## 🧪 Testing
+
+### Running Unit Tests
+
+```bash
+ng test
+```
+Executes unit tests via [Karma](https://karma-runner.github.io).
+
+### Running End-to-End Tests
+
+```bash
+ng e2e
+```
+
+## 🧹 Project Cleanup
+
+### Windows
+
+Run the cleanup script:
+```bash
+clean.bat
+```
+
+Or manually:
+```bash
+rmdir /s /q dist
+rmdir /s /q .angular
+rmdir /s /q coverage
+rmdir /s /q node_modules
+rmdir /s /q .firebase
+del /f /q debug.log
+del /f /q firebase-debug.log
+del /f /q ui-debug.log
+```
+
+### Unix/MacOS
+
+```bash
+rm -rf dist/
+rm -rf .angular/
+rm -rf coverage/
+rm -rf node_modules/
+rm -rf .firebase/
+rm -f debug.log
+rm -f firebase-debug.log
+rm -f ui-debug.log
+```
+
+## 📁 Project Structure
+
+```
+portfolio-spa/
+├── src/
+│   ├── app/
+│   ├── assets/
+│   └── environments/
+├── functions/
+├── firebase.json
+└── angular.json
+```
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create environment files in `src/environments/`:
+- `environment.ts` for development
+- `environment.prod.ts` for production
+
+### Firebase Configuration
+
+Update Firebase configuration in:
+- `firebase.json`
+- `.firebaserc`
+
+## 📦 Dependencies
+
+- Angular v18.0.2
+- Firebase
+- Angular Universal (SSR)
+
+## 🚀 Deployment
+
+### Deploy to Firebase
+
+1. Build the project:
+```bash
+ng build
+```
+
+2. Deploy to Firebase:
+```bash
+firebase deploy
+```
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
