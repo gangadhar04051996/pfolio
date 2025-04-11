@@ -50,9 +50,10 @@ import { ConfigService } from '../../services/config.service';
     h2 {
       text-align: center;
       margin-bottom: 20px;
-      color: var(--custom-font-color);
+      color: var(--title-color);
       font-size: 2.5rem;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      text-shadow: var(--heading-shadow);
+      font-weight: 600;
     }
 
     .gallery-description {
@@ -186,4 +187,5 @@ export class GalleryComponent {
     photo.isExpanded = !photo.isExpanded;
   }
 }
+
 

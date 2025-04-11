@@ -75,15 +75,17 @@ import { ConfigService } from '../../services/config.service';
     h1 {
       font-size: 4rem;
       margin-bottom: 1.5rem;
-      color: white;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      color: var(--title-color);
+      text-shadow: var(--heading-shadow);
       animation: fadeInDown 1s ease-out;
+      font-weight: 600;
     }
 
     .lead {
       font-size: 1.8rem;
       margin-bottom: 3rem;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--custom-font-color);
+      opacity: 0.9;
       animation: fadeInUp 1s ease-out;
     }
 

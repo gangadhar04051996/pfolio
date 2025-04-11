@@ -16,6 +16,7 @@ export interface TimelineItem {
   logoUrl?: string;
   isPresent?: boolean;
   responsibilities: string[];
+  skills?: string[];
   isExpanded?: boolean;
 }
 
@@ -103,7 +104,8 @@ export class ConfigService {
             'Mentored junior developers and conducted code reviews for team of 8 engineers',
             'Implemented CI/CD pipeline reducing deployment time by 60%',
             'Optimized application performance resulting in 40% improvement in load times'
-          ]
+          ],
+          skills: ['Node.js', 'TypeScript', 'Microservices', 'CI/CD']
         },
         {
           period: '2020 - 2023',
@@ -139,7 +141,7 @@ export class ConfigService {
 
     // Gallery section
     gallery: {
-      sectionTitle: 'What else I do, Visual Vertex',
+      sectionTitle: 'What else I do? Snapshot Showcase...',
       description: 'A collection of moments captured through my lens, reflecting my journey through different places and experiences. Each photo tells a unique story of discovery and creativity.',
       items: [
         {
@@ -209,6 +211,8 @@ export class ConfigService {
     return this.siteConfig.analytics.googleAnalytics.measurementId;
   }
 }
+
+
 
 
 
