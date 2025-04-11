@@ -25,6 +25,16 @@ export interface SocialLink {
   icon: string;
 }
 
+export interface GalleryPhoto {
+  id: number;
+  url: string;
+  caption: string;
+  location: string;
+  date: string; // Add date field
+  tags?: string[];
+  isExpanded?: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -78,6 +88,7 @@ export class ConfigService {
     // Timeline/Journey section
     timeline: {
       sectionTitle: 'What\'s So Far...',
+      description: 'Exploring my professional journey through various roles and responsibilities. Each step represents growth, learning, and impactful contributions to innovative projects and team success.',
       items: [
         {
           period: '2023 - Present',
@@ -126,9 +137,34 @@ export class ConfigService {
       ] as TimelineItem[]
     },
 
+    // Gallery section
+    gallery: {
+      sectionTitle: 'What else I do, Visual Vertex',
+      description: 'A collection of moments captured through my lens, reflecting my journey through different places and experiences. Each photo tells a unique story of discovery and creativity.',
+      items: [
+        {
+          id: 1,
+          url: '/assets/images/gallery/selfie.JPG',
+          caption: 'Sunset at the Beach',
+          location: 'Hyderabad, Telangana',
+          date: '2023-12-15', // Add dates to your photos
+          tags: ['Nature', 'Sunset', 'Beach']
+        },
+        {
+          id: 2,
+          url: '/assets/images/gallery/nithin.JPG',
+          caption: 'City Lights',
+          location: 'Hyderabad, Telangana',
+          date: '2023-11-30',
+          tags: ['Urban', 'Night', 'Architecture']
+        },
+        // Add more photos as needed
+      ] as GalleryPhoto[]
+    },
+
     // Footer
     footer: {
-      copyright: 'Built with  Augment Code & ❤️ using Angular by GR ',
+      copyright: 'Built with  Augment Code & ❤️ using AI by GR ',
       socialLinks: [
         {
           platform: 'GitHub',
@@ -158,8 +194,9 @@ export class ConfigService {
       brand: 'GR♾️',
       links: [
         { path: '/', label: '🏠 Home' },
-        { path: '/profile', label: 'Profile 👨🏽‍🦱' },
-        { path: '/contact', label: 'Let\'s Talk 📧' }
+        { path: '/profile', label: '👨🏽‍🦱 Timeline' },
+        { path: '/gallery', label: '📸 Vault' },
+        { path: '/contact', label: 'Let\'s Connect' }
       ]
     }
   };
@@ -172,4 +209,8 @@ export class ConfigService {
     return this.siteConfig.analytics.googleAnalytics.measurementId;
   }
 }
+
+
+
+
 

@@ -48,6 +48,9 @@ export class AppComponent implements OnInit {
         case '/contact':
           title = `${baseTitle} - Contact`;
           break;
+        case '/gallery':
+          title = `${baseTitle} - Gallery`;
+          break;
         case '/':
           title = baseTitle;
           break;

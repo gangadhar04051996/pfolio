@@ -71,7 +71,7 @@ import { ConfigService } from '../../services/config.service';
         color: white;
         text-decoration: none;
         padding: 0.5rem 1rem;
-        border-radius: 4px;
+        border-radius: 5px;
         transition: all 0.3s ease;
 
         &:hover {

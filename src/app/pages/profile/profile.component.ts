@@ -10,6 +10,7 @@ import { ConfigService } from '../../services/config.service';
     <div class="profile-content">
       <section class="timeline-section">
         <h2>{{config.timeline.sectionTitle}}</h2>
+        <p class="timeline-description">{{config.timeline.description}}</p>
         <app-timeline></app-timeline>
       </section>
     </div>
@@ -25,11 +26,23 @@ import { ConfigService } from '../../services/config.service';
     }
 
     h2 {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       text-align: center;
       color: white;
       font-size: 2.5rem;
       text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .timeline-description {
+      text-align: center;
+      margin-bottom: 40px;
+      color: white;
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      opacity: 0.9;
     }
   `]
 })
