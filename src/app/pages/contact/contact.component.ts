@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactService } from '../../services/contact.service';
+import { PageLayoutComponent } from '../../shared/layout/page-layout.component';
 
 interface ContactForm {
   name: string;
@@ -14,73 +16,76 @@ interface ContactForm {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule,
+    PageLayoutComponent
+  ],
+  providers: [ContactService],
   template: `
-    <div class="contact-content">
-      <div class="contact-container">
-        <h2>Get in Touch</h2>
-        <form class="contact-form" #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              [(ngModel)]="formData.name"
-              #name="ngModel"
-              required
-              placeholder="Your Name">
-            <span class="error-message" *ngIf="name.invalid && (name.dirty || name.touched)">
-              Name is required
-            </span>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              [(ngModel)]="formData.email"
-              #email="ngModel"
-              required
-              email
-              placeholder="Your Email">
-            <span class="error-message" *ngIf="email.invalid && (email.dirty || email.touched)">
-              Valid email is required
-            </span>
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              [(ngModel)]="formData.message"
-              #message="ngModel"
-              required
-              rows="5"
-              placeholder="Your Message"></textarea>
-            <span class="error-message" *ngIf="message.invalid && (message.dirty || message.touched)">
-              Message is required
-            </span>
-          </div>
-          <button type="submit" class="submit-btn" [disabled]="contactForm.invalid">
-            Send Message
-          </button>
-        </form>
-      </div>
-    </div>
+    <app-page-layout>
+      <div class="contact-content">
+        <div class="contact-container">
+          <h2>Let's Connect</h2>
+          <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+            <div class="form-group">
+              <input
+                type="text"
+                name="name"
+                [(ngModel)]="formData.name"
+                required
+                placeholder="Your Name"
+                #name="ngModel"
+                [class.invalid]="name.invalid && name.touched">
+              <span class="error-message" *ngIf="name.invalid && name.touched">Name is required</span>
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="formData.email"
+                required
+                email
+                placeholder="Your Email"
+                #email="ngModel"
+                [class.invalid]="email.invalid && email.touched">
+              <span class="error-message" *ngIf="email.invalid && email.touched">
+                Please enter a valid email address
+              </span>
+            </div>
+            <div class="form-group">
+              <textarea
+                name="message"
+                [(ngModel)]="formData.message"
+                required
+                placeholder="Your Message"
+                #message="ngModel"
+                [class.invalid]="message.invalid && message.touched"></textarea>
+              <span class="error-message" *ngIf="message.invalid && message.touched">
+                Message is required
+              </span>
+            </div>
+            <button type="submit" [disabled]="!contactForm.valid || isSubmitting">
+              {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+            </button>
+          </form>
+        </div>
 
-    <!-- Success Popup -->
-    <div class="popup" *ngIf="showPopup" [@fadeInOut]>
-      <div class="popup-content">
-        <p>I got your message, I'll get back to you Soon!</p>
+        <!-- Success Popup -->
+        <div class="popup" *ngIf="showPopup" [@fadeInOut]>
+          <div class="popup-content">
+            <p>{{ popupMessage }}</p>
+          </div>
+        </div>
       </div>
-    </div>
+    </app-page-layout>
   `,
   styles: [`
     .contact-content {
-      min-height: 100%;
-      padding: 80px 20px;
+      min-height: 100vh;
+      padding: 120px 20px; /* Increased top padding to account for fixed header */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -94,6 +99,7 @@ interface ContactForm {
       padding: 40px;
       border-radius: 16px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      margin: auto; /* Added margin auto */
     }
 
     h2 {
@@ -106,31 +112,45 @@ interface ContactForm {
 
     .form-group {
       margin-bottom: 20px;
+      position: relative;
+    }
 
-      label {
-        display: block;
-        color: white;
-        margin-bottom: 8px;
-        font-weight: 500;
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #2c3e50;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        border-color: #3a7bd5;
+        box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
       }
 
-      input, textarea {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.9);
-        color: #2c3e50;
-        font-size: 1rem;
-
-        &:focus {
-          outline: none;
-          box-shadow: 0 0 0 2px #3a7bd5;
-        }
+      &.invalid {
+        border-color: #ff4444;
       }
     }
 
-    .submit-btn {
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .error-message {
+      color: #ff4444;
+      font-size: 0.8rem;
+      margin-top: 4px;
+      display: block;
+      position: absolute;
+      bottom: -20px;
+    }
+
+    button {
       width: 100%;
       padding: 12px;
       background: linear-gradient(45deg, #3a7bd5, #00d2ff);
@@ -140,28 +160,17 @@ interface ContactForm {
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
 
-      &:hover {
+      &:hover:not(:disabled) {
         transform: translateY(-2px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .contact-content {
-        padding: 40px 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       }
 
-      h2 {
-        font-size: 2rem;
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
       }
-    }
-
-    .error-message {
-      color: #ff4444;
-      font-size: 0.8rem;
-      margin-top: 4px;
-      display: block;
     }
 
     .popup {
@@ -181,14 +190,19 @@ interface ContactForm {
       font-weight: 500;
     }
 
-    input.ng-invalid.ng-touched,
-    textarea.ng-invalid.ng-touched {
-      border: 1px solid #ff4444;
-    }
+    @media (max-width: 768px) {
+      .contact-content {
+        padding: 100px 20px 40px; /* Adjusted padding for mobile */
+      }
 
-    button[disabled] {
-      opacity: 0.7;
-      cursor: not-allowed;
+      .contact-container {
+        padding: 30px;
+        margin: 0 auto; /* Ensure center alignment on mobile */
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
     }
   `],
   animations: [
@@ -211,22 +225,31 @@ export class ContactComponent {
   };
 
   showPopup = false;
+  isSubmitting = false;
+  popupMessage = "I got your message, I'll get back to you soon!";
 
   constructor(private contactService: ContactService) {}
 
   onSubmit(form: NgForm) {
     if (form.valid) {
+      this.isSubmitting = true;
       this.contactService.sendMessage(this.formData).subscribe({
         next: () => {
           this.showPopup = true;
           form.resetForm();
+          this.isSubmitting = false;
           setTimeout(() => {
             this.showPopup = false;
           }, 3000);
         },
         error: (error: Error) => {
           console.error('Error sending message:', error);
-          // Handle error case
+          this.isSubmitting = false;
+          this.showPopup = true;
+          this.popupMessage = "Sorry, there was an error sending your message. Please try again.";
+          setTimeout(() => {
+            this.showPopup = false;
+          }, 3000);
         }
       });
     }

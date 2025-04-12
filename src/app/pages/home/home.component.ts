@@ -1,178 +1,237 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ProjectCarouselComponent } from '../../components/project-carousel/project-carousel.component';
 import { ConfigService } from '../../services/config.service';
+import { PageLayoutComponent } from '../../shared/layout/page-layout.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ProjectCarouselComponent],
+  imports: [CommonModule, RouterModule, ProjectCarouselComponent, PageLayoutComponent],
   template: `
-    <div class="home-content">
-      <section class="hero">
-        <div class="container">
-          <div class="hero-content">
-            <h1>{{config.hero.title}}</h1>
-            <p class="lead">{{config.hero.subtitle}}</p>
-            <a href="#projects" class="btn">{{config.hero.ctaText}}</a>
+    <app-page-layout>
+      <div class="home-content">
+        <section class="hero">
+          <div class="background-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
           </div>
-        </div>
-      </section>
+          <div class="container">
+            <div class="hero-content">
+              <div class="intro-text">
+                <span class="greeting">{{config.hero.title}}</span>
+                <h1 class="tagline">{{config.hero.subtitle}}</h1>
+                <p class="lead">Full Stack Developer passionate about creating innovative web solutions</p>
+                <div class="cta-group">
+                  <a href="#projects" class="btn primary">{{config.hero.ctaText}}</a>
+                  <a href="/contact" class="btn secondary">Get in Touch</a>
+                </div>
+              </div>
+              <div class="tech-stack">
+                <div class="tech-item" *ngFor="let tech of technologies">
+                  <i [class]="tech.icon"></i>
+                  <span>{{tech.name}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      <section id="projects" class="projects">
-        <div class="container">
-          <h2>{{config.projects.sectionTitle}}</h2>
-          <app-project-carousel></app-project-carousel>
-        </div>
-      </section>
-    </div>
+        <section id="projects" class="projects">
+          <div class="container">
+            <h2>{{config.projects.sectionTitle}}</h2>
+            <app-project-carousel></app-project-carousel>
+          </div>
+        </section>
+      </div>
+    </app-page-layout>
   `,
   styles: [`
     .home-content {
       min-height: 100%;
+      overflow: hidden;
     }
 
     .hero {
-      height: calc(100vh - var(--header-height));
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
-      text-align: center;
       position: relative;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      overflow: hidden;
+    }
 
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 2rem;
-        height: 2rem;
-        border: 2px solid rgba(255, 255, 255, 0.7);
-        border-radius: 50%;
-        animation: bounce 2s infinite;
-      }
+    .background-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
 
-      &::before {
-        content: '';
-        position: absolute;
-        bottom: 2.8rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0.5rem;
-        height: 0.5rem;
-        background: white;
-        border-radius: 50%;
-        animation: bounce 2s infinite;
-      }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+    }
+
+    .shape-1 {
+      width: 300px;
+      height: 300px;
+      background: rgba(58, 123, 213, 0.3);
+      top: -50px;
+      left: -100px;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    .shape-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(0, 210, 255, 0.2);
+      bottom: -100px;
+      right: -100px;
+      animation: float 10s infinite ease-in-out reverse;
+    }
+
+    .shape-3 {
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 102, 0, 0.2);
+      top: 50%;
+      left: 50%;
+      animation: float 12s infinite ease-in-out;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
     }
 
     .hero-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 2rem;
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
     }
 
-    h1 {
+    .intro-text {
+      max-width: 800px;
+    }
+
+    .greeting {
+      font-size: 1.5rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      display: block;
+      animation: slideInLeft 1s ease-out;
+    }
+
+    .tagline {
       font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #3a7bd5, #00d2ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 1.5rem;
-      color: var(--custom-font-color); // Changed from --title-color
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); // Enhanced text shadow for better visibility
-      animation: fadeInDown 1s ease-out;
-      font-weight: 600;
+      line-height: 1.2;
+      animation: slideInLeft 1s ease-out 0.2s both;
     }
 
     .lead {
       font-size: 1.8rem;
-      margin-bottom: 3rem;
-      color: var(--custom-font-color);
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); // Added subtle text shadow
-      opacity: 0.9;
-      animation: fadeInUp 1s ease-out;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 2rem;
+      animation: slideInLeft 1s ease-out 0.4s both;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      animation: slideInLeft 1s ease-out 0.6s both;
     }
 
     .btn {
-      display: inline-block;
-      padding: 15px 40px;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn.primary {
       background: linear-gradient(45deg, #3a7bd5, #00d2ff);
       color: white;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      animation: fadeIn 1s ease-out 0.5s both;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-      }
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
     }
 
-    .projects {
-      min-height: 100vh;
-      padding: 100px 0;
+    .btn.secondary {
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-
-      h2 {
-        text-align: center;
-        margin-bottom: 60px;
-        color: white;
-        font-size: 2.5rem;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-      }
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateX(-50%) translateY(0);
-      }
-      40% {
-        transform: translateX(-50%) translateY(-10px);
-      }
-      60% {
-        transform: translateX(-50%) translateY(-5px);
-      }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4);
     }
 
-    @keyframes fadeInDown {
+    .tech-stack {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      animation: fadeIn 1s ease-out 0.8s both;
+    }
+
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.1rem;
+    }
+
+    .tech-item i {
+      font-size: 1.5rem;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes slideInLeft {
       from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateX(-30px);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+        transform: translateX(0);
       }
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @media (max-width: 768px) {
-      .hero {
-        padding: 0 20px;
+      .hero-content {
+        text-align: center;
+        padding-top: 100px;
       }
 
-      h1 {
+      .tagline {
         font-size: 2.5rem;
       }
 
@@ -180,8 +239,16 @@ import { ConfigService } from '../../services/config.service';
         font-size: 1.3rem;
       }
 
+      .cta-group {
+        justify-content: center;
+      }
+
+      .tech-stack {
+        justify-content: center;
+      }
+
       .btn {
-        padding: 12px 30px;
+        padding: 0.8rem 1.5rem;
         font-size: 1rem;
       }
     }
@@ -189,6 +256,15 @@ import { ConfigService } from '../../services/config.service';
 })
 export class HomeComponent {
   config = this.configService.getConfig();
+
+  technologies = [
+    { name: 'AWS', icon: 'fab fa-aws' },
+    { name: 'GCP', icon: 'fab fa-gcp' },
+    { name: 'PostgreSQL', icon: 'fab fa-sql' },
+    { name: 'Python', icon: 'fab fa-python' },
+    { name: 'Java', icon: 'fab fa-java' },
+    { name: 'JavaScript', icon: 'fab fa-js' },
+  ];
 
   constructor(private configService: ConfigService) {}
 }

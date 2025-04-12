@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:portfolio-spa": "node dist/portfolio-spa/server/server.mjs"
+    "dev:ssr": "ng run portfolio-spa:serve-ssr",
+    "serve:ssr": "node dist/portfolio-spa/server/main.js",
+    "build:ssr": "ng build && ng run portfolio-spa:server",
+    "prerender": "ng run portfolio-spa:prerender"
   },
   "private": true,
   "dependencies": {

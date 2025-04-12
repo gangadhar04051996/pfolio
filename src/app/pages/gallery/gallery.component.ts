@@ -1,51 +1,55 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { ConfigService, GalleryPhoto } from '../../services/config.service';
+import { PageLayoutComponent } from '../../shared/layout/page-layout.component';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule, PageLayoutComponent],
   template: `
-    <div class="gallery-content">
-      <section class="gallery-section">
-        <h2>{{config.gallery.sectionTitle}}</h2>
-        <p class="gallery-description">{{config.gallery.description}}</p>
-        <div class="gallery-grid" #galleryGrid>
-          @for (photo of visiblePhotos; track photo.id) {
-            <div class="gallery-item"
-                 [class.expanded]="photo.isExpanded"
-                 [class.landscape]="photo.isLandscape"
-                 [class.portrait]="!photo.isLandscape"
-                 (click)="toggleExpand(photo, $event)">
-              <img [src]="photo.url"
-                   [alt]="photo.caption"
-                   loading="lazy"
-                   (load)="onImageLoad($event, photo)">
-              <div class="photo-overlay">
-                <p class="photo-caption">{{photo.caption}}</p>
-                <p class="photo-location">📍 {{photo.location}}</p>
-                <p class="photo-date">📅 {{photo.date | date:'mediumDate'}}</p>
-                @if (photo.tags?.length) {
-                  <div class="photo-tags">
-                    @for (tag of photo.tags; track tag) {
-                      <span class="tag">{{tag}}</span>
-                    }
-                  </div>
-                }
+    <app-page-layout>
+      <div class="gallery-content">
+        <section class="gallery-section">
+          <h2>{{config.gallery.sectionTitle}}</h2>
+          <p class="gallery-description">{{config.gallery.description}}</p>
+          <div class="gallery-grid" #galleryGrid>
+            @for (photo of visiblePhotos; track photo.id) {
+              <div class="gallery-item"
+                   [class.expanded]="photo.isExpanded"
+                   [class.landscape]="photo.isLandscape"
+                   [class.portrait]="!photo.isLandscape"
+                   (click)="toggleExpand(photo, $event)">
+                <img [src]="photo.url"
+                     [alt]="photo.caption"
+                     loading="lazy"
+                     (load)="onImageLoad($event, photo)">
+                <div class="photo-overlay">
+                  <p class="photo-caption">{{photo.caption}}</p>
+                  <p class="photo-location">📍 {{photo.location}}</p>
+                  <p class="photo-date">📅 {{photo.date | date:'mediumDate'}}</p>
+                  @if (photo.tags?.length) {
+                    <div class="photo-tags">
+                      @for (tag of photo.tags; track tag) {
+                        <span class="tag">{{tag}}</span>
+                      }
+                    </div>
+                  }
+                </div>
               </div>
+            }
+          </div>
+          @if (hasMorePhotos) {
+            <div class="load-more-container">
+              <button class="load-more-btn" (click)="loadMorePhotos()">
+                Load More Photos
+              </button>
             </div>
           }
-        </div>
-        @if (hasMorePhotos) {
-          <div class="load-more-container">
-            <button class="load-more-btn" (click)="loadMorePhotos()">
-              Load More Photos
-            </button>
-          </div>
-        }
-      </section>
-    </div>
+        </section>
+      </div>
+    </app-page-layout>
   `,
   styles: [`
     .gallery-content {

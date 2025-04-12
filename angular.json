@@ -99,6 +99,57 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/portfolio-spa/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "portfolio-spa:build:development",
+              "serverTarget": "portfolio-spa:server:development"
+            },
+            "production": {
+              "browserTarget": "portfolio-spa:build:production",
+              "serverTarget": "portfolio-spa:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "portfolio-spa:build:production",
+              "serverTarget": "portfolio-spa:server:production"
+            },
+            "development": {
+              "browserTarget": "portfolio-spa:build:development",
+              "serverTarget": "portfolio-spa:server:development"
+            }
+          }
         }
       }
     }

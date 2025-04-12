@@ -1,19 +1,24 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { PageLayoutComponent } from '../../shared/layout/page-layout.component';
 import { TimelineComponent } from '../../components/timeline/timeline.component';
 import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [TimelineComponent],
+  imports: [CommonModule, RouterModule, PageLayoutComponent, TimelineComponent],
   template: `
-    <div class="profile-content">
-      <section class="timeline-section">
-        <h2>{{config.timeline.sectionTitle}}</h2>
-        <p class="timeline-description">{{config.timeline.description}}</p>
-        <app-timeline></app-timeline>
-      </section>
-    </div>
+    <app-page-layout>
+      <div class="profile-content">
+        <section class="timeline-section">
+          <h2>{{config.timeline.sectionTitle}}</h2>
+          <p class="timeline-description">{{config.timeline.description}}</p>
+          <app-timeline></app-timeline>
+        </section>
+      </div>
+    </app-page-layout>
   `,
   styles: [`
     .profile-content {

@@ -1,27 +1,27 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { ConfigService } from '../../services/config.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, AsyncPipe],
+  imports: [RouterLink, RouterLinkActive, AsyncPipe, NgFor],
   template: `
     <header class="header">
       <nav class="nav-container">
         <div class="logo">
-          <a routerLink="/">{{config.navigation.brand}}</a>
+          <a [routerLink]="['/']">{{config.navigation.brand}}</a>
         </div>
         <div class="nav-links">
-          @for (link of config.navigation.links; track link.path) {
-            <a [routerLink]="link.path"
+          <ng-container *ngFor="let link of config.navigation.links">
+            <a [routerLink]="[link.path]"
                routerLinkActive="active"
                [routerLinkActiveOptions]="{exact: link.path === '/'}">
               {{link.label}}
             </a>
-          }
+          </ng-container>
           <button class="theme-toggle" (click)="toggleTheme()">
             <i class="fas" [class.fa-sun]="isDarkTheme$ | async" [class.fa-moon]="!(isDarkTheme$ | async)"></i>
           </button>
@@ -31,13 +31,14 @@ import { ConfigService } from '../../services/config.service';
   `,
   styles: [`
     .header {
-      background: var(--primary-color);
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
     }
 
     .nav-container {
@@ -46,8 +47,7 @@ import { ConfigService } from '../../services/config.service';
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 2rem;
-      height: var(--header-height);
+      padding: 0 20px;
     }
 
     .logo a {
