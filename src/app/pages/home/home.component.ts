@@ -23,10 +23,10 @@ import { PageLayoutComponent } from '../../shared/layout/page-layout.component';
               <div class="intro-text">
                 <span class="greeting">{{config.hero.title}}</span>
                 <h1 class="tagline">{{config.hero.subtitle}}</h1>
-                <p class="lead">Full Stack Developer passionate about creating innovative web solutions</p>
+                <p class="lead">Engineer by trade, Passionate on AI by choice shaping tomorrow’s tech with zero apologies.</p>
                 <div class="cta-group">
                   <a href="#projects" class="btn primary">{{config.hero.ctaText}}</a>
-                  <a href="/contact" class="btn secondary">Get in Touch</a>
+                  <a href="/contact" class="btn secondary">Let's Sync 🍻</a>
                 </div>
               </div>
               <div class="tech-stack">
