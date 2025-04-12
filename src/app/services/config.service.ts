@@ -46,7 +46,7 @@ export class ConfigService {
     metaDescription: 'Personal portfolio showcasing web development projects',
     analytics: {
       googleAnalytics: {
-        measurementId: 'G-7P4V4SWCY5' // Replace with your actual Measurement ID
+        measurementId: 'G-M0937KY9ZQ' // Replace with your actual Measurement ID
       }
     },
 
