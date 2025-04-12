@@ -146,35 +146,35 @@ export class ConfigService {
       items: [
         {
           id: 1,
-          url: '/assets/images/gallery/selfie.JPG',
-          caption: 'Sunset at the Beach',
-          location: 'Hyderabad, Telangana',
-          date: '2023-12-15', // Use consistent YYYY-MM-DD format
-          tags: ['Nature', 'Sunset', 'Beach']
-        },
-        {
-          id: 3,
           url: '/assets/images/gallery/horizontal.PNG',
           caption: 'City Lights',
           location: 'Hyderabad, Telangana',
           date: '2023-11-28', // Use consistent YYYY-MM-DD format
-          tags: ['Urban', 'Night', 'Architecture']
-        },
-        {
-          id: 2,
-          url: '/assets/images/gallery/nithin.JPG',
-          caption: 'City Lights',
-          location: 'Hyderabad, Telangana',
-          date: '2023-11-30', // Use consistent YYYY-MM-DD format
-          tags: ['Urban', 'Night', 'Architecture']
+          tags: ['Urban', 'Night', 'Who Knows']
         },
         {
           id: 4,
-          url: '/assets/images/gallery/nithya.JPG',
+          url: '/assets/images/gallery/butterfly.PNG',
           caption: 'City Lights',
           location: 'Hyderabad, Telangana',
           date: '2023-11-28', // Use consistent YYYY-MM-DD format
-          tags: ['Urban', 'Night', 'Architecture']
+          tags: ['Color', 'Art', 'Butterfly']
+        },
+        {
+          id: 3,
+          url: '/assets/images/gallery/bird.PNG',
+          caption: 'City Lights',
+          location: 'Hyderabad, Telangana',
+          date: '2023-11-28', // Use consistent YYYY-MM-DD format
+          tags: ['Color', 'Art', 'Bird']
+        },
+        {
+          id: 5,
+          url: '/assets/images/gallery/teddy.PNG',
+          caption: 'City Lights',
+          location: 'Hyderabad, Telangana',
+          date: '2023-11-28', // Use consistent YYYY-MM-DD format
+          tags: ['Color', 'Art', 'Teddy']
         },
         // Add more photos as needed
       ] as GalleryPhoto[]
