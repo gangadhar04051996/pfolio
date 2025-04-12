@@ -60,3 +60,19 @@ p {
     background-color: color.adjust(#3498db, $lightness: -10%);
   }
 }
+
+// Add these common timeline styles
+.timeline-common {
+  --timeline-gradient-start: #3a7bd5;
+  --timeline-gradient-end: #00d2ff;
+
+  .timeline-point {
+    background: linear-gradient(45deg, var(--timeline-gradient-start), var(--timeline-gradient-end));
+    border-radius: 50%;
+  }
+
+  .period {
+    background: linear-gradient(45deg, var(--timeline-gradient-start), var(--timeline-gradient-end));
+    color: white;
+  }
+}

@@ -1,0 +1,271 @@
+.timeline-wrapper {
+  min-height: 100vh;
+  padding: 40px 0;
+  position: relative;
+}
+
+.timeline {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0 20px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: var(--secondary-color);
+  }
+}
+
+.timeline-start-point, .timeline-end-point {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  margin: 20px 0;
+
+  span {
+    background: var(--secondary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+}
+
+.timeline-end-point .end-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.timeline-item {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 30px;
+  position: relative;
+  margin: 40px 0;
+  width: 50%;
+  left: 0;
+
+  &:nth-child(odd) {
+    align-self: flex-end;
+    justify-content: flex-start;
+    padding-left: 30px;
+    padding-right: 0;
+    left: 50%;
+
+    .timeline-content {
+      &::before {
+        left: -15px;
+        border-width: 8px 16px 8px 0;
+        border-color: transparent var(--card-background) transparent transparent;
+      }
+    }
+
+    .timeline-point {
+      left: 0;
+    }
+  }
+
+  &:nth-child(even) {
+    .timeline-content {
+      &::before {
+        right: -15px;
+        border-width: 8px 0 8px 16px;
+        border-color: transparent transparent transparent var(--card-background);
+      }
+    }
+
+    .timeline-point {
+      right: 0;
+    }
+  }
+}
+
+.timeline-point {
+  position: absolute;
+  top: 20px;
+  width: 16px;
+  height: 16px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+  transform: translateX(50%);
+  z-index: 2;
+  border: 3px solid var(--card-background);
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: rgba(var(--secondary-color), 0.2);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.timeline-content {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: calc(100% - 30px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &.expanded {
+    .expanded-content {
+      max-height: 1000px;
+      opacity: 1;
+      margin-top: 20px;
+    }
+  }
+}
+
+.content-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start; // Align items to the start
+}
+
+.company-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.period {
+  display: inline-block; // Keep this to ensure inline behavior
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  background: var(--secondary-color);
+  color: white;
+  width: auto; // Ensure it doesn't expand
+  align-self: flex-start; // Align to the start of the flex container
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--text-color);
+}
+
+.place {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: var(--text-color);
+}
+
+.description {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+.expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+  opacity: 0;
+
+  h4 {
+    margin: 0 0 10px;
+    color: var(--text-color);
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--text-color);
+
+    li {
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+  }
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.skill-tag {
+  background: var(--subtle-color);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+  .timeline::before {
+    left: 30px;
+  }
+
+  .timeline-start-point,
+  .timeline-end-point {
+    left: 30px;
+    transform: none;
+    text-align: left;
+  }
+
+  .timeline-item {
+    width: 100%;
+    left: 0 !important;
+    padding-left: 70px !important;
+    padding-right: 0 !important;
+
+    &:nth-child(odd),
+    &:nth-child(even) {
+      .timeline-content {
+        &::before {
+          left: -15px;
+          border-width: 8px 16px 8px 0;
+          border-color: transparent rgba(255, 255, 255, 0.1) transparent transparent;
+        }
+      }
+
+      .timeline-point {
+        left: 22px;
+        transform: none;
+      }
+    }
+  }
+}
+
