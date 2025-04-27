@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -29,7 +29,7 @@ interface ContactForm {
       <div class="contact-content">
         <div class="contact-container">
           <h2>Let's Connect</h2>
-          <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+          <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)" novalidate>
             <div class="form-group">
               <input
                 type="text"
@@ -38,8 +38,8 @@ interface ContactForm {
                 required
                 placeholder="Your Name"
                 #name="ngModel"
-                [class.invalid]="name.invalid && name.touched">
-              <span class="error-message" *ngIf="name.invalid && name.touched">Name is required</span>
+                [class.invalid]="name.invalid && (name.dirty || name.touched)">
+              <span class="error-message" *ngIf="name.invalid && (name.dirty || name.touched)">Name is required</span>
             </div>
             <div class="form-group">
               <input
@@ -50,8 +50,8 @@ interface ContactForm {
                 email
                 placeholder="Your Email"
                 #email="ngModel"
-                [class.invalid]="email.invalid && email.touched">
-              <span class="error-message" *ngIf="email.invalid && email.touched">
+                [class.invalid]="email.invalid && (email.dirty || email.touched)">
+              <span class="error-message" *ngIf="email.invalid && (email.dirty || email.touched)">
                 Please enter a valid email address
               </span>
             </div>
@@ -62,8 +62,8 @@ interface ContactForm {
                 required
                 placeholder="Your Message"
                 #message="ngModel"
-                [class.invalid]="message.invalid && message.touched"></textarea>
-              <span class="error-message" *ngIf="message.invalid && message.touched">
+                [class.invalid]="message.invalid && (message.dirty || message.touched)"></textarea>
+              <span class="error-message" *ngIf="message.invalid && (message.dirty || message.touched)">
                 Message is required
               </span>
             </div>
@@ -73,9 +73,9 @@ interface ContactForm {
           </form>
         </div>
 
-        <!-- Success Popup -->
+        <!-- Success/Error Popup -->
         <div class="popup" *ngIf="showPopup" [@fadeInOut]>
-          <div class="popup-content">
+          <div class="popup-content" [ngClass]="{'success': !isError, 'error': isError}">
             <p>{{ popupMessage }}</p>
           </div>
         </div>
@@ -175,19 +175,33 @@ interface ContactForm {
 
     .popup {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(0, 200, 0, 0.9);
-      color: white;
+      left: 50%;
+      bottom: 40px; /* Position from bottom */
+      transform: translateX(-50%);
       padding: 15px 25px;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1100; /* Ensure it's above other content */
+      min-width: 300px;
+      max-width: 90%;
+      text-align: center;
     }
 
     .popup-content {
       font-size: 1rem;
       font-weight: 500;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .popup-content.success {
+      background: rgba(40, 167, 69, 0.95);
+      color: white;
+    }
+
+    .popup-content.error {
+      background: rgba(220, 53, 69, 0.95);
+      color: white;
     }
 
     @media (max-width: 768px) {
@@ -203,21 +217,30 @@ interface ContactForm {
       h2 {
         font-size: 2rem;
       }
+
+      .popup {
+        bottom: 20px;
+        min-width: auto;
+        width: 90%;
+        margin: 0 auto;
+      }
     }
   `],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        style({ opacity: 0, transform: 'translate(-50%, 20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translate(-50%, 0)' }))
       ]),
       transition(':leave', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-20px)' }))
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translate(-50%, 20px)' }))
       ])
     ])
   ]
 })
 export class ContactComponent {
+  @ViewChild('contactForm') contactForm!: NgForm;
+
   formData: ContactForm = {
     name: '',
     email: '',
@@ -226,30 +249,48 @@ export class ContactComponent {
 
   showPopup = false;
   isSubmitting = false;
-  popupMessage = "I got your message, I'll get back to you soon!";
+  isError = false;
+  popupMessage = '';
 
   constructor(private contactService: ContactService) {}
 
   onSubmit(form: NgForm) {
-    if (form.valid) {
+    if (form.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      this.contactService.sendMessage(this.formData).subscribe({
+
+      // Create a copy of the form data
+      const formDataCopy = { ...this.formData };
+
+      this.contactService.sendMessage(formDataCopy).subscribe({
         next: () => {
+          this.isError = false;
+          this.popupMessage = "Thank you! I'll get back to you soon!";
           this.showPopup = true;
+
+          // Reset the form and formData
+          this.formData = {
+            name: '',
+            email: '',
+            message: ''
+          };
           form.resetForm();
-          this.isSubmitting = false;
+
           setTimeout(() => {
             this.showPopup = false;
           }, 3000);
         },
-        error: (error: Error) => {
+        error: (error) => {
           console.error('Error sending message:', error);
-          this.isSubmitting = false;
-          this.showPopup = true;
+          this.isError = true;
           this.popupMessage = "Sorry, there was an error sending your message. Please try again.";
+          this.showPopup = true;
+
           setTimeout(() => {
             this.showPopup = false;
           }, 3000);
+        },
+        complete: () => {
+          this.isSubmitting = false;
         }
       });
     }
