@@ -62,6 +62,13 @@ export class ConfigService {
       sectionTitle: 'Showcase ',
       items: [
         {
+          title: 'Code Flow Generation Agent',
+          description: 'Multi Agent system that generates code, flow diagram and explanation file',
+          imageUrl: '/assets/projects/project4.jpeg',
+          githubUrl: 'https://github.com/gangadhar04051996/dev_agents/tree/master/guide_creator_flow',
+          technologies: ['CrewAI', 'Agent', 'Python', 'Ollama']
+        },
+        {
           title: 'Log Time',
           description: 'Log your work and recollect handy app',
           imageUrl: '/assets/projects/project1.jpeg',
@@ -96,7 +103,7 @@ export class ConfigService {
           institution: 'ProspectIntel',
           place: 'USA',
           description: 'Sr Software Engineer',
-          logoUrl: 'assets/images/companies/prospectintel-logo.png',
+          logoUrl: 'assets/images/companies/pi-logo.png',
           isPresent: true,
           responsibilities: [
             'Architected a configuration‑driven Generative AI system for personalized sales pitches, boosting engagement and conversions',
